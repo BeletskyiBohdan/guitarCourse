@@ -39,7 +39,7 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 72px 0;
+  padding: 32px 0;
 }
 
 .welcomeScreen {
@@ -630,3 +630,4 @@ details p {
   html { scroll-behavior: auto; }
   .btn:active, .buyBtn:active { transform: none; }
 }
+
