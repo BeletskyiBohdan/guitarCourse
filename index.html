@@ -1,174 +1,342 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="uk">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Купити курс</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#242028" />
+  <title>Інтенсив «6 днів до власного соло»</title>
+  <meta name="description" content="6-денний інтенсив для гітаристів: чітка програма, щоденна практика та швидкий прогрес." />
 
-  <!-- Golos (Google Fonts) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      /* твоя улюблена база */
-      --bg: #242028;
-
-      /* кнопка */
-      --btn: #FFE48A;       /* жовтий */
-      --btn2:#F8D86D;       /* тепліший жовтий для об’єму */
-      --btn3:#C08A4D;       /* золотистий для низу/тіні */
-      --txt: #242028;       /* контрастний текст */
-
-      /* акцентні glow-кольори з твоєї палітри */
-      --g1:#6FCFFB;
-      --g2:#A288E4;
-      --g3:#FF6E59;
-      --g4:#3452D5;
-
-      --r: 18px;            /* радіус */
-      --b: 3px;             /* товщина “бордера” */
-    }
-
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-
-    body{
-      margin:0;
-      display:grid;
-      place-items:center;
-      background: var(--bg);
-      font-family: "Golos Text", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    }
-
-    /* ОДНА кнопка */
-    .buy{
-      position: relative;
-      padding: 16px 28px;
-      border: 0;
-      border-radius: var(--r);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.45), rgba(255,255,255,0) 38%),
-        linear-gradient(180deg, var(--btn) 0%, var(--btn2) 62%, var(--btn3) 140%);
-      color: var(--txt);
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: .2px;
-
-      /* вигляд “преміум пластини” */
-      box-shadow:
-        0 22px 60px rgba(0,0,0,.45),
-        inset 0 1px 0 rgba(255,255,255,.65),
-        inset 0 -10px 22px rgba(0,0,0,.18);
-
-      cursor: not-allowed;
-      user-select: none;
-      transform: translateZ(0);
-      isolation: isolate; /* щоб blend-mode не ліз у фон сторінки */
-    }
-
-    /* Ледь помітна “текстура”, дуже мінімально */
-    .buy::marker{ content:""; }
-
-    /* 1) ОБЕРТОВИЙ GLOW-БОРДЕР:
-       conic-gradient + masking/composite (виглядає дуже “дорого”) */
-    .buy::before{
-      content:"";
-      position:absolute;
-      inset: calc(-1 * var(--b));
-      border-radius: calc(var(--r) + var(--b));
-      padding: var(--b);
-
-      background:
-        conic-gradient(
-          from 0deg,
-          var(--g1),
-          var(--g2),
-          var(--g3),
-          var(--g4),
-          var(--g1)
-        );
-
-      /* ВАЖЛИВО: вирізаємо середину — лишається тільки “бордер” */
-      -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-              mask-composite: exclude;
-
-      /* Глибина/світіння */
-      filter:
-        blur(.35px)
-        drop-shadow(0 0 12px rgba(111,207,251,.22))
-        drop-shadow(0 0 18px rgba(162,136,228,.16));
-
-      opacity: .95;
-      z-index: -1;
-
-      /* обертання — без JS */
-      animation: spin 4.6s linear infinite, breathe 2.8s ease-in-out infinite;
-    }
-
-    @keyframes spin{
-      to{ transform: rotate(1turn); }
-    }
-    @keyframes breathe{
-      0%,100%{ filter: blur(.35px) drop-shadow(0 0 10px rgba(111,207,251,.18)) drop-shadow(0 0 16px rgba(162,136,228,.12)); }
-      50%    { filter: blur(.45px) drop-shadow(0 0 14px rgba(255,110,89,.18)) drop-shadow(0 0 22px rgba(52,82,213,.16)); }
-    }
-
-    /* 2) “SHINE” БЛІК, який проходить по кнопці:
-       зроблено псевдоелементом, щоб текст не “псувався” blend-mode */
-    .buy::after{
-      content:"";
-      position:absolute;
-      inset: 1px;
-      border-radius: calc(var(--r) - 1px);
-
-      /* блік */
-      background:
-        linear-gradient(120deg,
-          rgba(255,255,255,0) 0%,
-          rgba(255,255,255,.55) 45%,
-          rgba(255,255,255,0) 65%
-        );
-
-      transform: translateX(-140%) skewX(-12deg);
-      opacity: .35;
-      mix-blend-mode: overlay;
-      pointer-events:none;
-
-      animation: sweep 3.8s ease-in-out infinite;
-    }
-
-    @keyframes sweep{
-      0%   { transform: translateX(-140%) skewX(-12deg); opacity: 0; }
-      18%  { opacity: .35; }
-      52%  { transform: translateX(140%)  skewX(-12deg); opacity: .25; }
-      100% { transform: translateX(140%)  skewX(-12deg); opacity: 0; }
-    }
-
-    /* Вимкнена кнопка, але стиль лишається “живим” */
-    .buy:disabled{
-      outline: none;
-    }
-
-    /* Невеликий fallback, якщо в якомусь браузері mask-composite недоступний:
-       просто тонка рамка + тінь, без “вирізання” */
-    @supports not ((-webkit-mask-composite: xor) or (mask-composite: exclude)) {
-      .buy::before{
-        -webkit-mask: none;
-        mask: none;
-        opacity: .55;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-  <button class="buy" type="button" disabled aria-disabled="true">
-    Купити курс
-  </button>
+  <div class="wrap">
+    <header class="screen screen-hero" aria-label="Перший екран">
+
+      <div class="badge">
+        <strong>6-денний інтенсив</strong>
+        <span>Online</span>
+      </div>
+
+      <h1 id="courseTitle">Інтенсив «6 днів до власного соло»</h1>
+      <p class="sub">
+        Тут зібрано все, що потрібно для того, щоб навчитися грати гітарні соло: від професійної постановки руки та свідомого вибору нот до 6-крокової структури соло та 9-ти способів прикрашання
+      </p>
+
+      
+            <!-- Підсумок інтенсиву з булетами у вигляді галочок 
+            <div class="kpis">
+              <div class="kpi">✓ <b></b></div>
+              <div class="kpi">✓ <b>Доступ до матеріалів на півроку</b></div>
+            </div> -->
+
+
+      <div class="hero">
+        <div class="card" aria-label="Таймер акції">
+          <div class="timerRow">
+            <div>
+              <div class="onlyToday" id="onlyToday">Знижена ціна сьогодні:</div>
+            </div>
+
+            <div class="timer" role="timer" aria-live="polite" aria-label="Таймер до кінця дня">
+              <div class="tbox">
+                <div class="num" id="dd">00</div>
+                <div class="lbl">днів</div>
+              </div>
+              <div class="tbox">
+                <div class="num" id="hh">00</div>
+                <div class="lbl">год</div>
+              </div>
+              <div class="tbox">
+                <div class="num" id="mm">00</div>
+                <div class="lbl">хв</div>
+              </div>
+              <div class="tbox">
+                <div class="num" id="ss">00</div>
+                <div class="lbl">сек</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ctaInline">
+            <a class="btn btnPrimary" id="ctaPrimary" href="#buy">Купити інтенсив</a>
+          </div>
+        </div>
+
+        <div class="card" aria-label="Для кого">
+          <h2 class="sectionTitle" style="margin-top:0">Для кого цей інтенсив</h2>
+          <ul class="list">
+            <li>Новачки, які хочуть зрозумілу систему та швидкий старт.</li>
+            <li>Ті, хто застряг на плато і потребує структури.</li>
+            <li>Самостійні музиканти без регулярного плану тренувань.</li>
+            <li>Гітаристи, які хочуть підтягнути соло, ритм і впевненість.</li>
+          </ul>
+
+          <p class="quote" style="margin-top:12px">
+            20 хвилин щодня дають результат, якщо є правильна послідовність.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <section class="screen" id="author" aria-label="Про автора">
+      <h2 class="sectionTitle">Про автора</h2>
+      <div class="author">
+        <div class="authorContent card">
+          <p style="margin:0 0 10px"><b>Антон Галіцин</b> — гітарист із 15+ роками практики.</p>
+          <ul class="list">
+            <li>Викладає з 2017 року, веде групові й індивідуальні заняття.</li>
+            <li>Підготував сотні учнів до виступів і перших записів.</li>
+            <li>Автор інтенсиву «Соло за 5 днів» та авторських методик.</li>
+            <li>Провів 13 потоків інтенсиву, понад 1000 учасників.</li>
+            <li>Фокус на результат: короткі вправи, системність і практика.</li>
+          </ul>
+          <p class="muted" style="margin:12px 0 0; line-height:1.55">
+            Мета — дати зрозумілий шлях і прибрати хаос у тренуваннях. Ти знаєш, що робити щодня
+            і як бачити прогрес.
+          </p>
+        </div>
+        <div class="authorPhoto">
+          <img src="images/author.jpg" alt="Антон Галіцин" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="result" aria-label="Результат">
+      <h2 class="sectionTitle">Що отримаєш після 5 днів</h2>
+      <div class="grid resultGrid">
+        <div class="card">
+          <ul class="list">
+            <li>Чіткий план тренувань і щоденні завдання.</li>
+            <li>Покращення ритму, швидкості та чистоти виконання.</li>
+            <li>Систему, з якою легше підтримувати регулярність.</li>
+            <li>Розуміння, як працювати над соло без «застрягання».</li>
+          </ul>
+        </div>
+
+        <div class="card bonusCard">
+          <h2 class="sectionTitle">Бонус</h2>
+          <p class="muted" style="margin:0; line-height:1.55">
+            PDF-шпаргалки, таби та Guitar Pro файли, щоб тренуватись зручно й у своєму темпі.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="program" aria-label="Програма курсу">
+      <div class="card">
+        <h2 class="sectionTitle">Програма курсу</h2>
+        <div class="programGrid">
+          <article class="lessonCard">
+            <div class="lessonImage">
+              <img src="images/lesson-0.png" alt="Плейсхолдер зображення для уроку 0" loading="lazy">
+            </div>
+            <div class="lessonBody">
+              <span class="lessonTag">Урок 0</span>
+              <h3 class="lessonTitle">Як навчитися грати круті та запальні соло</h3>
+            </div>
+          </article>
+          <article class="lessonCard">
+            <div class="lessonImage">
+              <img src="images/lesson-1.png" alt="Плейсхолдер зображення для уроку 1" loading="lazy">
+            </div>
+            <div class="lessonBody">
+              <span class="lessonTag">Урок 1</span>
+              <h3 class="lessonTitle">Як тримають руки професіональні гітаристи</h3>
+            </div>
+          </article>
+          <article class="lessonCard">
+            <div class="lessonImage">
+              <img src="images/lesson-2.png" alt="Плейсхолдер зображення для уроку 2" loading="lazy">
+            </div>
+            <div class="lessonBody">
+              <span class="lessonTag">Урок 2</span>
+              <h3 class="lessonTitle">Як легко вивчити усі ноти на грифі: секрети музичної теорії простими словами</h3>
+            </div>
+          </article>
+          <article class="lessonCard">
+            <div class="lessonImage">
+              <img src="images/lesson-3.png" alt="Плейсхолдер зображення для уроку 3" loading="lazy">
+            </div>
+            <div class="lessonBody">
+              <span class="lessonTag">Урок 3</span>
+              <h3 class="lessonTitle">Із яких нот складається приємне соло, а про які варто забути</h3>
+            </div>
+          </article>
+          <article class="lessonCard">
+            <div class="lessonImage">
+              <img src="images/lesson-4.png" alt="Плейсхолдер зображення для уроку 4" loading="lazy">
+            </div>
+            <div class="lessonBody">
+              <span class="lessonTag">Урок 4</span>
+              <h3 class="lessonTitle">6 кроків до яскравих емоцій від незабутнього соло</h3>
+            </div>
+          </article>
+          <article class="lessonCard">
+            <div class="lessonImage">
+              <img src="images/lesson-5.png" alt="Плейсхолдер зображення для уроку 5" loading="lazy">
+            </div>
+            <div class="lessonBody">
+              <span class="lessonTag">Урок 5</span>
+              <h3 class="lessonTitle">9 способів прикрасити соло: від бендів   до штучних флажолетів</h3>
+            </div>  
+          </article>
+          <article class="lessonCard">
+            <div class="lessonImage">
+              <img src="images/lesson-6.png" alt="Плейсхолдер зображення для уроку 6" loading="lazy">
+            </div>
+            <div class="lessonBody">
+              <span class="lessonTag">Урок 6</span>
+              <h3 class="lessonTitle">Як досягати довершеності в грі соло: 3 звички успішного соло-гітариста</h3>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="how" aria-label="Як проходить навчання">
+      <div class="card">
+        <h2 class="sectionTitle">Як проходить навчання</h2>
+        <ol class="list">
+          <li>Оформлюєш участь і отримуєш доступ.</li>
+          <li>Щодня відкривається новий блок із завданнями.</li>
+          <li>Виконуєш вправи 20–30 хвилин і фіксуєш прогрес.</li>
+          <li>Після 5 днів маєш чіткий план і розуміння, що далі.</li>
+        </ol>
+        <p class="muted" style="margin:10px 0 0">Інтенсив практичний: менше теорії — більше гри.</p>
+      </div>
+    </section>
+
+    <section class="screen" id="reviews" aria-label="Відгуки">
+      <h2 class="sectionTitle">Відгуки</h2>
+      <div class="reviews">
+        <article class="review">
+          <img class="avatar" src="assets/avatar-1.png" alt="Відгук 1" loading="lazy" width="100" height="100">
+          <div class="reviewBody">
+            <h3 class="reviewName">Ілля</h3>
+            <p class="reviewRole">1.5 роки грає на електро</p>
+            <p class="reviewText">Хоча я не початківець, мені інтенсив сподобався. Подача інформації. Було багато нового для мене. Все дуже зручно і круто, рекомендую!</p>
+          </div>
+        </article>
+        <article class="review">
+          <img class="avatar" src="assets/avatar-2.png" alt="Відгук 2" loading="lazy" width="100" height="100">
+          <div class="reviewBody">
+            <h3 class="reviewName">Віталій</h3>
+            <p class="reviewRole">3 роки на акустиці + 2 роки на басу</p>
+            <details class="reviewDetails">
+              <summary class="reviewSummary">
+                <span class="reviewPreview">Чудові іллюстрації, теорія пояснюється наочно. Легко увійти в курс справи. Просто і зрозуміло. Гумор автора розряджає атмосферу)...</span>
+                <span class="reviewToggle">
+                  <span class="reviewToggleClosed">читати далі</span>
+                  <span class="reviewToggleOpen">згорнути</span>
+                </span>
+              </summary>
+              <p class="reviewText">Чудові іллюстрації, теорія пояснюється наочно. Легко увійти в курс справи. Просто і зрозуміло. Гумор автора розряджає атмосферу) Гарні відповіді на конкретні відповіді, які в мене виникли. Практичні поради та корисні інтерактивні моменти збагачують матеріал. Особливо мені сподобалося, що є набір прикладів соло. Є від чого відштовхнутися в творчості!</p>
+            </details>
+          </div>
+        </article>
+        <article class="review">
+          <img class="avatar" src="assets/avatar-3.png" alt="Відгук 3" loading="lazy" width="100" height="100">
+          <div class="reviewBody">
+            <h3 class="reviewName">Богдан</h3>
+            <p class="reviewRole">Новачок в гітарі</p>
+            <details class="reviewDetails">
+              <summary class="reviewSummary">
+                <span class="reviewPreview">Я давно мріяв навчитися грати на гітарі. І як тільки в мене з'явилася гітара, я потрохи почав її вчити по ютубу: як тримати руку, як затискати Am, Dm, E7 та інші базові акорди, багато грав на них прості пісні. Але я хотів більшого...</span>
+                <span class="reviewToggle">
+                  <span class="reviewToggleClosed">читати далі</span>
+                  <span class="reviewToggleOpen">згорнути</span>
+                </span>
+              </summary>
+              <p class="reviewText">Я давно мріяв навчитися грати на гітарі. І як тільки в мене з'явилася гітара, я потрохи почав її вчити по ютубу: як тримати руку, як затискати Am, Dm, E7 та інші базові акорди, багато грав на них прості пісні. Але я хотів більшого — навчитися грати соло на гітарі. Подивившись цей курс, я жалкую, що він не дістався мені раніше. Такими простими словами пояснюється теорія та ази. Все по полочках. Надихає і дає змогу навчитися писати власні соло. Корисні матеріали, які йдуть до уроків, — 👍👍👍. Дякую автору та чекаю наступних курсів!</p>
+            </details>
+          </div>
+        </article>
+        <article class="review">
+          <img class="avatar" src="assets/avatar-4.png" alt="Відгук 4" loading="lazy" width="100" height="100">
+          <div class="reviewBody">
+            <h3 class="reviewName">Андрій Л.</h3>
+            <p class="reviewRole">Самоучка, 5 років</p>
+            <p class="reviewText">Класний старт для новачків. Нарешті з'явився план і дисципліна.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="screen" id="faq" aria-label="Питання та відповіді">
+      <div class="card">
+        <h2 class="sectionTitle">Питання та відповіді</h2>
+        <div class="faqList" id="faqList">
+          <details>
+            <summary>Чи підійде інтенсив новачку?</summary>
+            <p>Так, програма адаптована для старту й поступового прогресу без перевантаження.</p>
+          </details>
+
+          <details>
+            <summary>Скільки часу потрібно щодня?</summary>
+            <p>У середньому 20–30 хвилин практики.</p>
+          </details>
+
+          <details>
+            <summary>Чи потрібна електрогітара?</summary>
+            <p>Ні, підходить і акустична, і електрогітара.</p>
+          </details>
+
+          <details>
+            <summary>Що буде після 6 днів?</summary>
+            <p>Отримаєш план тренувань на 30 днів, щоб закріпити навички.</p>
+          </details>
+
+          <details>
+            <summary>Чи можна проходити у своєму темпі?</summary>
+            <p>Так, доступ зберігається, і ти зможеш повертатись до матеріалів.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="buy" aria-label="Покупка">
+      <div class="card">
+        <h2 class="sectionTitle">Купити інтенсив</h2>
+        <p class="muted" style="margin:0 0 10px; line-height:1.55">
+          Оформлюй участь сьогодні, щоб отримати доступ до матеріалів і спеціальну ціну.
+        </p>
+
+        <div class="grid">
+          <div class="card">
+            <p style="margin:0 0 6px"><b>Ціна:</b> <span class="muted" id="priceText">19$ / 690 грн</span></p>
+            <p style="margin:0"><b>Гарантія:</b> <span class="muted">14 днів повернення коштів</span></p>
+          </div>
+          <div class="card">
+            <p style="margin:0 0 6px"><b>Оплата:</b> <span class="muted">WayForPay / Mono / Privat / PayPal</span></p>
+            <p style="margin:0"><b>Доступ:</b> <span class="muted" id="accessText">60 днів</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="wrap" style="padding-top:0">
+      <p class="muted" style="margin:16px 0 0; font-size:12px; opacity:.9">
+        © <span id="year"></span> Інтенсив «Соло за 5 днів». Усі права захищені.
+      </p>
+    </footer>
+  </div>
+
+  <div class="bottomCta" role="region" aria-label="Панель покупки">
+    <div class="inner">
+      <div class="price">
+        <p class="p1" id="ctaHint"><span id="ctaTime">0год 00хв 00с</span></p>
+        <p class="ctaPrice" id="ctaPrice">19$ / 690 грн</p>
+      </div>
+
+      <a class="buyBtn" id="buyBtn" href="https://example.com/pay" target="_blank" rel="noopener">
+        Купити інтенсив
+      </a>
+    </div>
+  </div>
+
+  <script src="index.js"></script>
 </body>
 </html>
+
