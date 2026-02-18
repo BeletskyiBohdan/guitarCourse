@@ -418,7 +418,7 @@ details p {
 
 .reviews {
   display: grid;
-  gap: 24px;
+  gap: 48px;
 }
 
 .review {
@@ -630,4 +630,5 @@ details p {
   html { scroll-behavior: auto; }
   .btn:active, .buyBtn:active { transform: none; }
 }
+
 
